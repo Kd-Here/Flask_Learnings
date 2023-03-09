@@ -83,6 +83,40 @@ def Home():
 
 
 ###############
-#Accessing Request Data
-# https://flask.palletsprojects.com/en/2.2.x/quickstart/#accessing-request-data
+# Request Data
 ###############
+
+from flask import request
+
+@app.route('/yo')
+def indexd():
+    username = request.cookies.get(username)
+    print(username)
+    # use cookies.get(key) instead of cookies[key] to not get a
+    # KeyError if the cookie is missing.
+
+
+##################
+# Redirect user
+##################
+from flask import abort, redirect, url_for
+
+@app.route('/acc')
+def checking_user():
+    return redirect(url_for('singin'))
+
+@app.route('/singin')
+def singin():
+    abort(401) #When abort is used this will give error on user page
+    return "<h1>Sing in first</h1>"
+
+# Here we  chnaging abort error to page not found error 
+@app.errorhandler(401)
+def page_not_found(error):
+    return render_template('page_not_found.html'), 404
+
+
+
+########
+#Responses: https://flask.palletsprojects.com/en/2.2.x/quickstart/#about-responses
+########
